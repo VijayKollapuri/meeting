@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { roomApi } from '../api/bookingApi';
 
 const RoomManagementPage = () => {
@@ -64,40 +64,43 @@ const RoomManagementPage = () => {
   };
 
   return (
-    <div>
-      <h1>Room Management</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      
-      <button onClick={() => {
-        setShowForm(!showForm);
-        setEditRoom(null);
-        setFormData({ name: '', capacity: '', floorNumber: '' });
-      }} style={{ marginBottom: '20px' }}>
+    <div className="page">
+      <h1 className="page-title">Room Management</h1>
+      {error && <p className="text-error">{error}</p>}
+
+      <button
+        className="btn"
+        onClick={() => {
+          setShowForm(!showForm);
+          setEditRoom(null);
+          setFormData({ name: '', capacity: '', floorNumber: '' });
+        }}
+      >
         {showForm ? 'Cancel' : 'Add New Room'}
       </button>
 
       {showForm && (
-        <div style={{ border: '1px solid #ccc', padding: '20px', marginBottom: '20px' }}>
+        <div className="card">
           <h3>{editRoom ? 'Edit Room' : 'New Room'}</h3>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Room Name: </label>
-              <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} required />
+          <form onSubmit={handleSubmit} className="form-grid">
+            <div className="form-row">
+              <label>Room Name</label>
+              <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
             </div>
-            <div>
-              <label>Capacity: </label>
-              <input type="number" value={formData.capacity} onChange={(e) => setFormData({...formData, capacity: e.target.value})} required min="1" />
+            <div className="form-row">
+              <label>Capacity</label>
+              <input type="number" value={formData.capacity} onChange={(e) => setFormData({ ...formData, capacity: e.target.value })} required min="1" />
             </div>
-            <div>
-              <label>Floor Number: </label>
-              <input type="number" value={formData.floorNumber} onChange={(e) => setFormData({...formData, floorNumber: e.target.value})} required />
+            <div className="form-row">
+              <label>Floor Number</label>
+              <input type="number" value={formData.floorNumber} onChange={(e) => setFormData({ ...formData, floorNumber: e.target.value })} required />
             </div>
-            <button type="submit">{editRoom ? 'Update' : 'Create'}</button>
+            <button type="submit" className="btn">{editRoom ? 'Update' : 'Create'}</button>
           </form>
         </div>
       )}
 
-      <table border="1" style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table className="data-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -113,8 +116,10 @@ const RoomManagementPage = () => {
               <td>{room.capacity}</td>
               <td>{room.floorNumber}</td>
               <td>
-                <button onClick={() => handleEdit(room)}>Edit</button>
-                <button onClick={() => handleDelete(room.id)}>Delete</button>
+                <div className="table-actions">
+                  <button className="btn btn-secondary" onClick={() => handleEdit(room)}>Edit</button>
+                  <button className="btn btn-danger" onClick={() => handleDelete(room.id)}>Delete</button>
+                </div>
               </td>
             </tr>
           ))}

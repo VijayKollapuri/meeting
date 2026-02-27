@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { bookingApi, roomApi } from '../api/bookingApi';
 
 const BookingPage = () => {
@@ -40,22 +40,21 @@ const BookingPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Client-side validation
+
     const start = new Date(formData.startTime);
     const end = new Date(formData.endTime);
     const now = new Date();
-    
+
     if (start < now) {
       setError('Start time cannot be in the past');
       return;
     }
-    
+
     if (end <= start) {
       setError('End time must be after start time');
       return;
     }
-    
+
     const durationMs = end - start;
     if (durationMs < 10 * 60 * 1000) {
       setError('Minimum booking duration is 10 minutes');
@@ -98,16 +97,16 @@ const BookingPage = () => {
   };
 
   return (
-    <div>
-      <h1>My Bookings</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      
-      <div style={{ marginBottom: '20px' }}>
-        <button onClick={() => setShowForm(!showForm)}>
+    <div className="page">
+      <h1 className="page-title">My Bookings</h1>
+      {error && <p className="text-error">{error}</p>}
+
+      <div className="page-actions">
+        <button className="btn" onClick={() => setShowForm(!showForm)}>
           {showForm ? 'Cancel' : 'Create New Booking'}
         </button>
-        <span style={{ marginLeft: '20px' }}>
-          Filter by Status: 
+        <div className="inline-field">
+          <label>Filter by Status</label>
           <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
             <option value="">All</option>
             <option value="PENDING">Pending</option>
@@ -115,40 +114,40 @@ const BookingPage = () => {
             <option value="REJECTED">Rejected</option>
             <option value="CANCELLED">Cancelled</option>
           </select>
-        </span>
+        </div>
       </div>
 
       {showForm && (
-        <div style={{ border: '1px solid #ccc', padding: '20px', marginBottom: '20px' }}>
+        <div className="card">
           <h3>{editBooking ? 'Edit Booking' : 'New Booking'}</h3>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>Room: </label>
-              <select value={formData.roomId} onChange={(e) => setFormData({...formData, roomId: e.target.value})} required>
+          <form onSubmit={handleSubmit} className="form-grid">
+            <div className="form-row">
+              <label>Room</label>
+              <select value={formData.roomId} onChange={(e) => setFormData({ ...formData, roomId: e.target.value })} required>
                 <option value="">Select Room</option>
                 {rooms.map(room => (
                   <option key={room.id} value={room.id}>{room.name} (Cap: {room.capacity}, Floor: {room.floorNumber})</option>
                 ))}
               </select>
             </div>
-            <div>
-              <label>Start Time: </label>
-              <input type="datetime-local" value={formData.startTime} onChange={(e) => setFormData({...formData, startTime: e.target.value})} required />
+            <div className="form-row">
+              <label>Start Time</label>
+              <input type="datetime-local" value={formData.startTime} onChange={(e) => setFormData({ ...formData, startTime: e.target.value })} required />
             </div>
-            <div>
-              <label>End Time: </label>
-              <input type="datetime-local" value={formData.endTime} onChange={(e) => setFormData({...formData, endTime: e.target.value})} required />
+            <div className="form-row">
+              <label>End Time</label>
+              <input type="datetime-local" value={formData.endTime} onChange={(e) => setFormData({ ...formData, endTime: e.target.value })} required />
             </div>
-            <div>
-              <label>Agenda (Optional): </label>
-              <textarea value={formData.agenda} onChange={(e) => setFormData({...formData, agenda: e.target.value})} />
+            <div className="form-row">
+              <label>Agenda (Optional)</label>
+              <textarea value={formData.agenda} onChange={(e) => setFormData({ ...formData, agenda: e.target.value })} />
             </div>
-            <button type="submit">{editBooking ? 'Update' : 'Create'}</button>
+            <button type="submit" className="btn">{editBooking ? 'Update' : 'Create'}</button>
           </form>
         </div>
       )}
 
-      <table border="1" style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table className="data-table">
         <thead>
           <tr>
             <th>Room</th>
@@ -172,15 +171,17 @@ const BookingPage = () => {
               <td>{booking.agenda}</td>
               <td>{booking.status}</td>
               <td>
-                {booking.status === 'PENDING' && (
-                  <>
-                    <button onClick={() => handleEdit(booking)}>Edit</button>
-                    <button onClick={() => handleCancel(booking.id)}>Cancel</button>
-                  </>
-                )}
-                {booking.status === 'APPROVED' && (
-                  <button onClick={() => handleCancel(booking.id)}>Cancel</button>
-                )}
+                <div className="table-actions">
+                  {booking.status === 'PENDING' && (
+                    <>
+                      <button className="btn btn-secondary" onClick={() => handleEdit(booking)}>Edit</button>
+                      <button className="btn btn-danger" onClick={() => handleCancel(booking.id)}>Cancel</button>
+                    </>
+                  )}
+                  {booking.status === 'APPROVED' && (
+                    <button className="btn btn-danger" onClick={() => handleCancel(booking.id)}>Cancel</button>
+                  )}
+                </div>
               </td>
             </tr>
           ))}

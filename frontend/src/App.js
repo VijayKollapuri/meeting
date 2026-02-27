@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+﻿import React, { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { AuthProvider, AuthContext } from './context/AuthContext';
 import LoginPage from './pages/LoginPage';
@@ -12,16 +12,22 @@ const Navigation = () => {
   if (!user) return null;
 
   return (
-    <nav style={{ padding: '10px', backgroundColor: '#f0f0f0', marginBottom: '20px' }}>
-      <Link to="/bookings" style={{ marginRight: '10px' }}>My Bookings</Link>
-      {isAdmin() && (
-        <>
-          <Link to="/admin" style={{ marginRight: '10px' }}>Approve Bookings</Link>
-          <Link to="/rooms" style={{ marginRight: '10px' }}>Manage Rooms</Link>
-        </>
-      )}
-      <span style={{ marginLeft: 'auto' }}>Welcome, {user.username} </span>
-      <button onClick={logout}>Logout</button>
+    <nav className="app-nav">
+      <div className="app-nav__inner">
+        <div className="app-nav__left">
+          <Link to="/bookings" className="nav-link">My Bookings</Link>
+          {isAdmin() && (
+            <>
+              <Link to="/admin" className="nav-link">Approve Bookings</Link>
+              <Link to="/rooms" className="nav-link">Manage Rooms</Link>
+            </>
+          )}
+        </div>
+        <div className="app-nav__right">
+          <span className="nav-welcome">Welcome, {user.username}</span>
+          <button className="btn btn-ghost" onClick={logout}>Logout</button>
+        </div>
+      </div>
     </nav>
   );
 };
@@ -40,9 +46,9 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="App">
+        <div className="app-shell">
           <Navigation />
-          <div style={{ padding: '20px' }}>
+          <main className="app-main">
             <Routes>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/bookings" element={<PrivateRoute><BookingPage /></PrivateRoute>} />
@@ -50,7 +56,7 @@ function App() {
               <Route path="/rooms" element={<PrivateRoute adminOnly={true}><RoomManagementPage /></PrivateRoute>} />
               <Route path="/" element={<Navigate to="/bookings" />} />
             </Routes>
-          </div>
+          </main>
         </div>
       </Router>
     </AuthProvider>

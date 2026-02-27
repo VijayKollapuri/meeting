@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { adminApi } from '../api/bookingApi';
 
 const AdminPage = () => {
@@ -37,14 +37,14 @@ const AdminPage = () => {
   };
 
   return (
-    <div>
-      <h1>Pending Approvals</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      
+    <div className="page">
+      <h1 className="page-title">Pending Approvals</h1>
+      {error && <p className="text-error">{error}</p>}
+
       {pendingBookings.length === 0 ? (
         <p>No pending booking requests.</p>
       ) : (
-        <table border="1" style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <table className="data-table">
           <thead>
             <tr>
               <th>User</th>
@@ -68,8 +68,10 @@ const AdminPage = () => {
                 <td>{booking.duration}</td>
                 <td>{booking.agenda}</td>
                 <td>
-                  <button onClick={() => handleApprove(booking.id)} style={{ color: 'green' }}>Approve</button>
-                  <button onClick={() => handleReject(booking.id)} style={{ color: 'red' }}>Reject</button>
+                  <div className="table-actions">
+                    <button className="btn btn-secondary" onClick={() => handleApprove(booking.id)}>Approve</button>
+                    <button className="btn btn-danger" onClick={() => handleReject(booking.id)}>Reject</button>
+                  </div>
                 </td>
               </tr>
             ))}

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+﻿import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../api/bookingApi';
@@ -20,7 +20,11 @@ const LoginPage = () => {
       await login({ username, password });
       navigate('/bookings');
     } catch (err) {
-      setError('Invalid username or password');
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        'Login failed. Check username/password or backend logs.';
+      setError(message);
     }
   };
 
@@ -31,43 +35,49 @@ const LoginPage = () => {
       setIsRegistering(false);
       setError('Registration successful! Please login.');
     } catch (err) {
-      setError(err.response?.data || 'Registration failed');
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        'Registration failed. Check backend logs.';
+      setError(message);
     }
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: 'auto', paddingTop: '50px' }}>
-      <h2>{isRegistering ? 'Register' : 'Login'}</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={isRegistering ? handleRegister : handleLogin}>
-        <div>
-          <label>Username: </label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-        </div>
-        <div>
-          <label>Password: </label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </div>
-        {isRegistering && (
-          <>
-            <div>
-              <label>Email: </label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            </div>
-            <div>
-              <label>Register as Admin: </label>
-              <input type="checkbox" checked={isAdminRegister} onChange={(e) => setIsAdminRegister(e.target.checked)} />
-            </div>
-          </>
-        )}
-        <button type="submit" style={{ marginTop: '10px' }}>{isRegistering ? 'Register' : 'Login'}</button>
-      </form>
-      <button 
-        style={{ marginTop: '10px', background: 'none', border: 'none', color: 'blue', cursor: 'pointer' }}
-        onClick={() => setIsRegistering(!isRegistering)}
-      >
-        {isRegistering ? 'Already have an account? Login' : 'Need an account? Register'}
-      </button>
+    <div className="auth-page">
+      <div className="card auth-card">
+        <h2 className="page-title">{isRegistering ? 'Register' : 'Login'}</h2>
+        {error && <p className="text-error">{error}</p>}
+        <form onSubmit={isRegistering ? handleRegister : handleLogin} className="form-grid">
+          <div className="form-row">
+            <label>Username</label>
+            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          </div>
+          <div className="form-row">
+            <label>Password</label>
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          </div>
+          {isRegistering && (
+            <>
+              <div className="form-row">
+                <label>Email</label>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              </div>
+              <div className="form-row">
+                <label>Register as Admin</label>
+                <input type="checkbox" checked={isAdminRegister} onChange={(e) => setIsAdminRegister(e.target.checked)} />
+              </div>
+            </>
+          )}
+          <button type="submit" className="btn">{isRegistering ? 'Register' : 'Login'}</button>
+        </form>
+        <button
+          className="toggle-link"
+          onClick={() => setIsRegistering(!isRegistering)}
+        >
+          {isRegistering ? 'Already have an account? Login' : 'Need an account? Register'}
+        </button>
+      </div>
     </div>
   );
 };
