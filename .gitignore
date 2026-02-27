@@ -1,0 +1,45 @@
+# Java/Maven (Backend)
+backend/target/
+backend/*.jar
+backend/*.war
+backend/*.ear
+backend/*.class
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+
+# Node.js/React (Frontend)
+frontend/node_modules/
+frontend/build/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Docker
+*.pid
+
+# Test coverage
+frontend/coverage/
+
+# Build artifacts
+*.tmp
+*.bak
