@@ -1,0 +1,7 @@
+com\epam\meetingroombooking\controller\AdminControllerTest.class
+com\epam\meetingroombooking\controller\BookingControllerTest.class
+com\epam\meetingroombooking\service\BookingServiceTest.class
+com\epam\meetingroombooking\service\RoomServiceTest.class
+com\epam\meetingroombooking\service\AdminServiceTest.class
+com\epam\meetingroombooking\service\UserServiceTest.class
+com\epam\meetingroombooking\controller\RoomControllerTest.class
