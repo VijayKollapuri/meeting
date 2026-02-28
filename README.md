@@ -1,6 +1,6 @@
 ﻿# Meeting Room Booking System
 
-Full-stack application for booking meeting rooms.
+AI assisted Full-stack application for booking meeting rooms.
 
 ## Project Structure
 - `backend/`: Spring Boot application (Java 21)
